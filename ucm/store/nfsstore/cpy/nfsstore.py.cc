@@ -140,7 +140,10 @@ PYBIND11_MODULE(ucmnfsstore, module)
     store.def("LoadToHost", &UC::NFSStorePy::LoadToHost);
     store.def("DumpFromDevice", &UC::NFSStorePy::DumpFromDevice);
     store.def("DumpFromHost", &UC::NFSStorePy::DumpFromHost);
-    store.def("Wait", &UC::NFSStorePy::Wait);
+    // Wait touches only the native task id/state. Release the Python GIL so a
+    // background SSD wait cannot stall the model thread's next CUDA launches.
+    store.def("Wait", &UC::NFSStorePy::Wait,
+              py::call_guard<py::gil_scoped_release>());
     store.def("Check", &UC::NFSStorePy::CheckPy);
     store.def("Commit", py::overload_cast<const std::string&, const bool>(&UC::NFSStorePy::Commit));
     store.def("CommitBatch", &UC::NFSStorePy::CommitBatch);

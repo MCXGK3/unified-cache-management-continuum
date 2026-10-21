@@ -101,6 +101,12 @@ class UcmNfsStore(UcmKVStoreBase):
         )
         return NfsTask(task_id=task_id)
 
+    def load_host(self, block_ids, offsets, tensors):
+        """Read exact layer slices into pinned DRAM without a GPU round trip."""
+        return NfsTask(task_id=self.store.LoadToHost(
+            block_ids, offsets, [t.data_ptr() for t in tensors],
+            [t.numel() * t.element_size() for t in tensors]))
+
     def fetch_data(
         self,
         block_ids: List[str],

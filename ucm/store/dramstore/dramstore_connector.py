@@ -131,6 +131,7 @@ class UcmDramStore(UcmKVStoreBase):
         """
         task = DramTask()
         stream = device.Stream()
+        stream.wait_stream(device.current_stream())
         task.start_event = device.Event(enable_timing=True)
         task.event = device.Event(enable_timing=True)
         with device.stream(stream):
@@ -165,6 +166,8 @@ class UcmDramStore(UcmKVStoreBase):
             return task
         else:
             stream = device.Stream()
+            # Respect the producing stream before an asynchronous D2H copy.
+            stream.wait_stream(device.current_stream())
             task.start_event = device.Event(enable_timing=True)
             task.event = device.Event(enable_timing=True)
             with device.stream(stream):

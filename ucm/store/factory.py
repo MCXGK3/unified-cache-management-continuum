@@ -77,3 +77,7 @@ UcmConnectorFactory.register_connector(
     "ucm.store.tieredstore.tieredstore_connector",
     "UcmTieredStore",
 )
+
+UcmConnectorFactory.register_connector(
+    "UcmTurnTieredStore", "ucm.store.tieredstore.turn_tiered_store", "UcmTurnTieredStore"
+)

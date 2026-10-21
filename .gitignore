@@ -1,0 +1,30 @@
+# Python bytecode and tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local virtual environments
+.venv/
+venv/
+
+# Python packaging and native build outputs
+/build/
+/dist/
+*.egg-info/
+.eggs/
+*.so
+*.so.*
+*.o
+*.obj
+*.a
+
+# CMake-generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
